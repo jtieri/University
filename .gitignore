@@ -21,3 +21,14 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+
+# Image files
+
+# Jet Brains 
+.idea/
+CS515/Testing/cmake-build-debug/
+CS515/MidtermC/cmake-build-debug/
+CS515/Assignment 3/cmake-build-debug/
+CS515/Assignment 2/C++/cmake-build-debug/
+CS515/Assignment 1/cmake-build-debug/
