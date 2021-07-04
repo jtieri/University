@@ -1,0 +1,119 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CS 45500 / CS 51580 - Homework 2</title>
+  <meta name="description" content="CS 45500 homework 2">
+  <meta name="author" content="Roger L. Kraft">
+  <link rel="stylesheet" href="http://math.pnw.edu/~rlkraft/roger-v2.css">
+  <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+<!--
+<header>
+  <a href="http://math.pnw.edu/~rlkraft/" title="Roger L. Kraft">Roger L. Kraft</a>
+</header>
+ -->
+<nav>
+  <ul class="nav-list" role="navigation">
+    <li><a href="../cs45500.html">CS 45500 / CS 51580</a></li>
+    <li><a href="../syllabus.html">Syllabus</a></li>
+    <li><a href="../class.html">Lectures and Readings</a></li>
+    <li><a href="../homework.html">Homework Assignments</a></li>
+  </ul>
+  <ul class="nav-list" role="navigation">
+    <li><a href="http://math.pnw.edu/~rlkraft/roger.html">Roger Kraft</a></li>
+    <li><a href="https://pnw.edu/computer-science/">Computer Science Department</a></li>
+    <li><a href="https://pnw.edu/engineering/">School of Engineering</a></li>
+    <li><a href="https://pnw.edu/college-of-engineering-sciences/">College of Engineering & Sciences</a></li>
+    <li><a href="https://pnw.edu/">Purdue University Northwest</a></li>
+  </ul>
+</nav>
+
+<section id="Content">
+<h1>
+Programming Assignment 2<br>
+CS 45500 / CS 51580<br>
+Computer Graphics<br>
+Fall, 2020
+</h1>
+
+<p>
+This assignment makes use of the files contained in this <a href="hw2.zip">zip file</a>.
+This assignment is due Tuesday, September 29.
+</p>
+
+<p>
+This assignment and your previous assignment are about the data structures used at the two ends of the 3D graphics rendering pipeline; what goes into the beginning of the pipeline and what comes out of the end of the pipeline. Roughly, what goes into the pipeline is the <code>Scene</code> data structure which describes the geometry of what the renderer should draw. What comes out of the pipeline is the <code>FrameBuffer</code> data structure which holds the pixel image of the scene drawn by the renderer. The previous assignment was about just the <code>FrameBuffer</code> data structure. This assignment is about both what goes into the rendering pipeline, the <code>Scene</code> data structure and what comes out, the <code>FrameBuffer</code> data structure.
+</p>
+
+<p>
+For this assignment, you will define three <code>Model</code> data structures that can be used to build scenes and then use your models to build a sequence of <code>Scene</code> data structures that can be given to the renderer to create a sequence of <coode>FrameBuffer</code> data structures. You will then "post process" the pixels in the framebuffers to create a new sequence of framebuffers, and use the new sequence of framebuffers to create a movie. The post processing of the framebuffers will add a "special effect" that we would not be able to create using the renderer by itself.
+</p>
+
+<p>
+As we have said in class, a <code>Scene</code> is mainly a collection of models. A <code>Model</code> is a list of vertices in 3-dimensional space (which we call "camera space") and a list of line segments. Each <code>Vertex</code> contains three doubles (for the <code>x</code>, <code>y</code>, and <code>z</code> coordinates of a point). Each <code>LineSegment</code> contains the (integer) index for two <code>Vertex</code> objects from the <code>Model</code>'s vertex list. The vertices and line segments combine to form a "<a href="https://en.wikipedia.org/wiki/Wire-frame_model">wireframe</a>" shape that we see as a geometric object in the scene.
+</p>
+
+<p>
+In the zip file that are three java source files, <code>P.java</code>, <code>N.java</code>, and <code>W.java</code>. Each of these files defines a sub-class of the <code>Model</code> class (from the <code>scene</code> package). The file <code>P.java</code> is complete. You need to complete the other two files so that each one defines a model that represents the letter of the alphabet the file is named after. You need to determine how many <code>Vertex</code> and <code>LineSegment</code> objects each model needs and then write the code that instantiates those objects and puts them into the model. These are two-dimensional models (all the vertices are in the xy-plane).  Make each letter about one unit tall (in the y-direction), about one unit wide (in the x-direction).
+</p>
+
+<p>
+If you want to see examples of <code>Model</code> classes, look at the files in the <code>models</code> package in <a href="http://math.pnw.edu/~rlkraft/cs45500/renderer_2.zip">renderer_2.zip</a>. In particular, look at the files <code>Square.java<code>, </code>Circle.java</code>, <code>Cube.java</code>, and <code>Tetrahedron.java</code>, because those are the simplest models.
+</p>
+
+<p>
+After you have defined your letter models, complete the program <code>Hw2_v1.java</code> that uses your letter models to create an animation that looks like the file <code>Hw2_v1_animation.gif</code> from the zip file (your letters do not have to look exactly like my letters). If we look at the letter P in the animation, it moves one unit up, then three units right and down, then one unit left, then one unit left and up, then two units left, and, finally, one unit right and up. This brings the P back to where it started (so the animation can cycle through the frames to create a continuous loop). In <code>Hw2_v1.java</code> the three letters have been pushed back into the <code>z = -2</code> plane, and the view volume, in the <code>z = -2</code> plane, extends from -2 to 2 along the x-axis, and from -2 to 2 along the y-axis.
+</p>
+
+<p>
+After you have <code>Hw2_v1.java</code> creating the animation, complete <code>Hw2_v2.java</code>, which will add a "post processing" step to the animation frames to create an animation that looks like <code>Hw2_v2_animation.gif</code> from the zip file.
+</p>
+
+<p>
+The main idea in <code>Hw2_v2.java</code> is that you will use a list of computed frames to produce a new frame that combines the list into a single frame showing a "tail" of motion. The method <code>postProcess()</code> will take in a List of FrameBuffer objects and return a new FrameBuffer object that is built using the pixel information in the list of frames. The list will hold the last twenty frames created by the renderer, and the return frame from <code>postProcess()</code> will be the frame that gets saved as a file for the final animation.
+</p>
+
+<p>
+Another way to describe what <code>Hw2_v2.java</code> does is that it takes a moving "window" of 20 frames from the animation created by <code>Hw2_v1.java</code> and uses that 20 frame window to create one frame for <code>Hw2_v2.java</code>. As each <code>Hw2_v2.java</code> frame is created, one old frame from the "window" is dropped from the end of the "window" and a new (<code>Hw2_v1.java</code>) frame is placed at the beginning of the "window".
+</p>
+
+<p>
+The file <code>Hw2_v2.java</code> contains an outline of the steps that you need to complete. Also, you can copy any needed code that you wrote for <code>Hw2_v1.java</code> into <code>Hw2_v2.java</code>.
+</p>
+
+<p>
+After you have <code>Hw2_v2.java</code> working, convert the image frames that your program produces into a real "animation" file. To do this you need to download the following zip file and unzip it to your <code>C:\</code> directory.
+</p>
+<center><a href="https://imagemagick.org/download/binaries/ImageMagick-7.0.10-29-portable-Q8-x64.zip">ImageMagick-7.0.10-29-portable-Q8-x64.zip</a></center>
+<p>
+After you have <a href="http://www.imagemagick.org/script/index.php">ImageMagick</a> on your computer, and after you run your program to produce all the animation frames, just double click on the command file <code>ImageMagick.cmd</code> and it should (I hope) use your frames to create an animation file called <code>animation.gif</code>. Double click on your animation file to see your movie.
+</p>
+
+<p>
+<a href="http://math.pnw.edu/~rlkraft/cs45500/handin.html">Turn in</a> a zip file called <code>CS455Hw2Surname.zip</code> (where <code>Surname</code> is your last name) containing your versions of <code>Hw2_v1.java</code>, <code>Hw2_v2.java</code> and <code>animation.gif</code>.
+</p>
+
+<p>
+This assignment is due Tuesday, September 29.
+</p>
+
+</section>
+
+<footer>
+  <script language="JavaScript" type="text/javascript">
+    document.write("<font size=\"-2\"><i>Last modified on " + document.lastModified + ".<\/i><\/font>");
+  </script>
+  <br>
+  <a href="mailto:rlkraft@pnw.edu"><font size="-2"><i>compliments and criticisms</i></font></a>
+</footer>
+
+</body>
+</html>
