@@ -1,0 +1,123 @@
+			Homework: Polynomial Using LinkedList
+
+Description: Implement a polynomial class using a LinkedList defined in Java
+
+
+(1) Define a polynomial that has the following methods for Polynomial
+
+a. public Polynomial()
+
+	POSTCONDITION: Creates a polynomial represents 0
+
+b. public Polynomial(double a0)
+
+	POSTCONDITION: Creates a polynomial represents a constant a0
+
+c. public Polynomial(Polynomial p)
+
+	POSTCONDITION: Creates a polynomial that is the copy of p
+
+d. public void add_to_coef(double amount, int exponent)
+
+     PRECONDITION: amount!=0
+
+     POSTCONDITION: Adds the given amount to the coefficient of the specified exponent.
+     Note: the exponent is allowed to be greater than the degree of the polynomial
+      example: if p = x + 1, after p.add_to_coef(1, 2), p = x^2  + x + 1
+               if p = x + 1, after p.add_to_coef(1.5, 1), p = 2.5x + 1
+               if p = x + 1, after p.add_to_coef(-1, 1), p =  1
+
+e.  public void assign_coef(double coefficient, int exponent)
+
+     POSTCONDITION: Sets the coefficient for the specified exponent.
+     Note: the exponent is allowed to be greater than the degree of the polynomial
+the coefficient may be 0
+        if p = x + 1, after p.assign_coef(1.5, 2), p = 1.5x^2  + x + 1
+
+        if p = x + 1, after p.assign_coef(1.5, 1), p = 1.5x + 1
+
+
+        if p = x + 1, after p.assign_coef(0, 1), p =  1
+
+
+
+        if p = x + 1, after p.assign_coef(0, 0), p =  x
+
+f. public double coefficient(int exponent)
+     POSTCONDITION: Returns coefficient at specified exponent of this polynomial.
+     Note: the exponent is allowed to be greater than the degree of the polynomial
+     e.g. if p = x^2 + 1; p.coeffcient(3) should return 0, and   p.coeffcient(1) should return 0
+                    and p.coeffcient(2)  should return 1
+
+
+g. public double eval(double x)
+     POSTCONDITION: The return value is the value of this polynomial with the given value for the variable x.
+     Use Horner's rule. Try not to use power method from Math, which is very low efficient
+
+
+h.  public string toString()
+
+	POSTCONDITION: return the polynomial as a string like “2x^2 + 3x + 4”
+
+
+
+i. public Polynomial add(Polynomial p)
+     POSTCONDITION:
+                this object and p are not changed
+                return a polynomial that is the sum of   p and this polynomial
+
+j. public Polynomial multiply(Polynomial p)
+     POSTCONDITION:
+     this object and p should not be changed
+     returns a new polynomial obtained by multiplying this term and p. For example, if this polynomial is
+     2x^2 + 3x + 4 and p is 5x^2 - 1x + 7, then at the end of this function,
+   it will return the polynomial 10x^4 + 13x^3 + 31x^2 + 17x + 28.
+
+
+(2)Implementation options.
+
+
+No matter which option you choose,
+        (a) the terms should be stored in decrees orders of the exponents.
+
+(b) Except  the constant term  ,  all other terms are stored only if the coefficient is non-zero
+
+ option1
+     a. Define TermNode as a public class  which has
+          i. three instance variables:
+                double coeff
+                int exp
+                Term next;
+          ii. constructor (int exp, double coeff, TermNode nextTerm )
+
+          iii. get, set method, and other methods as needed.
+
+      b. Polynomial has the following instance variables:
+          TermNode first;
+       //first is a reference to the the first term of a linked list of terms,
+       // which are sorted in decresing order of exponent. This makes it easy for the
+       // add, multiply, and toString methods.
+
+ option2  or
+      a. Define TermNode as a nested static class in Polynomial,   which has
+          i. three instance variables:
+                double coeff
+                int exp
+                Term next;
+          ii. constructor (int exp, double coeff, TermNode nextTerm )
+
+       b. Polynomial has the following instance variables:
+
+         TermNode first; //first is a reference to the the first term of a linked list of terms,  which are sorted in decresing order of exponent
+
+
+  option3 using LinkedList defined in Java
+      a. Define Term as a nested static class in Polynomial,   which has
+          i. two instance variables:
+                double coeff
+                int exp
+          ii. constructor (int exp, double coeff)
+
+       b. Polynomial has the following instance variables:
+
+         LinkedList<Term> first; //first is a reference to the the first term of a linked list of terms,  which are sorted in decresing order of exponent
