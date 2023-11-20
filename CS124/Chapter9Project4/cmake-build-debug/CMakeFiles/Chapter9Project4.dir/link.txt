@@ -1,0 +1,3 @@
+"C:\Program Files\JetBrains\CLion 2018.1.1\bin\cmake\bin\cmake.exe" -E remove -f CMakeFiles\Chapter9Project4.dir/objects.a
+C:\MinGW\bin\ar.exe cr CMakeFiles\Chapter9Project4.dir/objects.a @CMakeFiles\Chapter9Project4.dir\objects1.rsp
+C:\MinGW\bin\g++.exe -g   -Wl,--whole-archive CMakeFiles\Chapter9Project4.dir/objects.a -Wl,--no-whole-archive  -o Chapter9Project4.exe -Wl,--out-implib,libChapter9Project4.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Chapter9Project4.dir\linklibs.rsp
